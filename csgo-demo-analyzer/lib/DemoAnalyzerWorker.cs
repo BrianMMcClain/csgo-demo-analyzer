@@ -49,8 +49,27 @@ namespace csgo_demo_analyzer
             parser.PlayerKilled += Parser_PlayerKilled;
             parser.RoundEnd += Parser_RoundEnd;
             parser.TickDone += Parser_TickDone;
-
+            parser.BombPlanted += Parser_BombPlanted;
+            parser.BombDefused += Parser_BombDefused;
+           
             parser.ParseToEnd();
+            
+            // Record the final score and MVPs
+            foreach (DemoInfo.Player p in parser.PlayingParticipants)
+            {
+                this.results.Players[p.SteamID].Score = p.AdditionaInformations.Score;
+                this.results.Players[p.SteamID].MVPs = p.AdditionaInformations.MVPs;
+            }
+        }
+
+        private void Parser_BombDefused(object sender, BombEventArgs e)
+        {
+            results.Players[e.Player.SteamID].BombDefuses.Add(this.currentRound);
+        }
+
+        private void Parser_BombPlanted(object sender, BombEventArgs e)
+        {
+            results.Players[e.Player.SteamID].BombPlants.Add(this.currentRound);
         }
 
         private void Parser_TickDone(object sender, TickDoneEventArgs e)
@@ -130,6 +149,11 @@ namespace csgo_demo_analyzer
                 }
                 kill.PenetratedObjects = e.PenetratedObjects;
                 this.results.Players[e.Killer.SteamID].Kills.Add(kill);
+
+                // Record the corresponding death for the killed player
+                this.results.Players[e.DeathPerson.SteamID].Deaths.Add(kill);
+
+                Debug.WriteLine(kill.ToString());
             }
         }
 

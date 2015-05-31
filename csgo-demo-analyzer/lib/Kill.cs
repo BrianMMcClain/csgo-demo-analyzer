@@ -42,5 +42,15 @@ namespace csgo_demo_analyzer
             this.Headshot = headshot;
             this.Weapon = weapon;
         }
+
+        public override string ToString()
+        {
+            string outString = this.Killer.Name;
+            if (this.HasAssistance)
+                outString += String.Format(" (+{0})", this.Assister.Name);
+            outString += String.Format(" killed {0}", this.Killed.Name);
+            outString += String.Format(" ({0})", this.Weapon);
+            return outString; 
+        }
     }
 }
