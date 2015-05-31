@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace csgo_demo_analyzer
 {
-    class Results
+    public class Results
     {
         public string Hash;
         public string Map;
@@ -16,6 +16,11 @@ namespace csgo_demo_analyzer
         public Player MostHeadshots
         {
             get { return _MostHeadshots(); }
+        }
+
+        public Results()
+        {
+            this.Hash = "";
         }
 
         public Results(String hash)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace csgo_demo_analyzer
 {
-    class Player
+    public class Player
     {
         public string Name;
         public long SteamID;

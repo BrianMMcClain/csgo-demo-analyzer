@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace csgo_demo_analyzer
 {
-    class Round
+    public class Round
     {
         public DemoInfo.Team Winner;
         public int RoundNumber;

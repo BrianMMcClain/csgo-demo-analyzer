@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace csgo_demo_analyzer
 {
-    class Kill
+    public class Kill
     {
         public Player Killer;
         public Player Killed;

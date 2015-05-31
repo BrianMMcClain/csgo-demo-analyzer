@@ -61,7 +61,9 @@ namespace csgo_demo_analyzer
                 this.results.Players[p.SteamID].MVPs = p.AdditionaInformations.MVPs;
             }
 
+            Debug.WriteLine("");
             Debug.WriteLine(String.Format("Most Headshots: {0} ({1})", results.MostHeadshots.Name, results.MostHeadshots.HeadshotCount));
+            Debug.WriteLine(String.Format("Most Kills: {"))
         }
 
         private void Parser_BombDefused(object sender, BombEventArgs e)
