@@ -63,7 +63,6 @@ namespace csgo_demo_analyzer
 
             Debug.WriteLine("");
             Debug.WriteLine(String.Format("Most Headshots: {0} ({1})", results.MostHeadshots.Name, results.MostHeadshots.HeadshotCount));
-            Debug.WriteLine(String.Format("Most Kills: {"))
         }
 
         private void Parser_BombDefused(object sender, BombEventArgs e)
@@ -156,6 +155,12 @@ namespace csgo_demo_analyzer
 
                 // Record the corresponding death for the killed player
                 this.results.Players[e.DeathPerson.SteamID].Deaths.Add(kill);
+
+                // Record if this is a teamkill
+                if (e.Killer.Team == e.DeathPerson.Team)
+                {
+                    results.Players[e.Killer.SteamID].Teamkills.Add(kill);
+                }
 
                 Debug.WriteLine(kill.ToString());
             }
