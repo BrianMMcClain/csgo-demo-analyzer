@@ -42,5 +42,21 @@ namespace csgo_demo_analyzer
             this.BombExplosions = new List<Round>();
             this.BombDefuses = new List<Round>();
         }
+
+        public int HeadshotCount
+        {
+            get { return _HeadshotCount(); }
+        }
+
+        private int _HeadshotCount()
+        {
+            int hsCount = 0;
+            foreach (Kill k in this.Kills)
+            {
+                if (k.Headshot)
+                    hsCount++;
+            }
+            return hsCount;
+        }
     }
 }

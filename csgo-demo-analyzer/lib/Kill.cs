@@ -50,6 +50,10 @@ namespace csgo_demo_analyzer
                 outString += String.Format(" (+{0})", this.Assister.Name);
             outString += String.Format(" killed {0}", this.Killed.Name);
             outString += String.Format(" ({0})", this.Weapon);
+            if (this.PenetratedObjects > 0)
+            {
+                outString += String.Format(" (Penetrated {0} object(s))", this.PenetratedObjects);
+            }
             return outString; 
         }
     }

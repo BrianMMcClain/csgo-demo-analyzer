@@ -13,6 +13,11 @@ namespace csgo_demo_analyzer
         public Dictionary<long, Player> Players;
         public Dictionary<int, Round> Rounds;
 
+        public Player MostHeadshots
+        {
+            get { return _MostHeadshots(); }
+        }
+
         public Results(String hash)
         {
             this.Hash = hash;
@@ -20,5 +25,20 @@ namespace csgo_demo_analyzer
             this.Rounds = new Dictionary<int, Round>();
         }
 
+        private Player _MostHeadshots()
+        {
+            Player mostHS = null;
+            int mostHSCount = -1;
+            foreach (Player p in this.Players.Values)
+            {
+                if (p.HeadshotCount > mostHSCount)
+                {
+                    mostHS = p;
+                    mostHSCount = p.HeadshotCount;
+                }
+            }
+
+            return mostHS;
+        }
     }
 }

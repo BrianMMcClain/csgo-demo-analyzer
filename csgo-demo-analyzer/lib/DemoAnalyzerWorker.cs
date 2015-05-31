@@ -60,6 +60,8 @@ namespace csgo_demo_analyzer
                 this.results.Players[p.SteamID].Score = p.AdditionaInformations.Score;
                 this.results.Players[p.SteamID].MVPs = p.AdditionaInformations.MVPs;
             }
+
+            Debug.WriteLine(String.Format("Most Headshots: {0} ({1})", results.MostHeadshots.Name, results.MostHeadshots.HeadshotCount));
         }
 
         private void Parser_BombDefused(object sender, BombEventArgs e)
