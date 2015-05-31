@@ -9,10 +9,12 @@ namespace csgo_demo_analyzer
     class Round
     {
         public DemoInfo.Team Winner;
+        public int RoundNumber;
 
         public Round()
         {
             this.Winner = DemoInfo.Team.Spectate;
+            this.RoundNumber = -1;
 
         }
     }

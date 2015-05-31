@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 using DemoInfo;
-using System.Security.Cryptography;
 
 namespace csgo_demo_analyzer
 {
@@ -41,6 +41,7 @@ namespace csgo_demo_analyzer
 
             // Record the map
             this.results.Map = parser.Map;
+            this.currentRound = new Round();
             Debug.WriteLine(String.Format("Map: {0}", this.results.Map));
 
             parser.MatchStarted += Parser_MatchStarted;
@@ -50,11 +51,7 @@ namespace csgo_demo_analyzer
             parser.TickDone += Parser_TickDone;
 
             parser.ParseToEnd();
-
-            foreach (long sid in results.Players.Keys)
-            {
-                Debug.WriteLine(String.Format("{0} - {1}", results.Players[sid].Name, results.Players[sid].Kills.Count));
-            }
+            Console.ReadLine();
         }
 
         private void Parser_TickDone(object sender, TickDoneEventArgs e)
@@ -78,6 +75,7 @@ namespace csgo_demo_analyzer
 
         private void RoundEnd()
         {
+            // Determine the winner of the round
             DemoInfo.Team winningTeam = Team.Spectate;
             if (lastTScore != parser.TScore)
             {
@@ -87,13 +85,28 @@ namespace csgo_demo_analyzer
             {
                 winningTeam = Team.CounterTerrorist;
             }
-
             lastTScore = parser.TScore;
             lastCTScore = parser.CTScore;
+            this.currentRound.Winner = winningTeam;
 
-            Debug.WriteLine("End round " + currentRoundNumber);
+            // Record the current round
+            this.results.Rounds.Add(this.currentRoundNumber, this.currentRound);
 
-            Debug.WriteLine(String.Format("T {0} | CT {1} - Winner: {2}", parser.TScore, parser.CTScore, winningTeam));
+            Debug.WriteLine("End round " + this.currentRound.RoundNumber);
+            Debug.WriteLine(String.Format("Round {0}: T {1} | CT {2} - Winner: {3}", this.currentRound.RoundNumber, parser.TScore, parser.CTScore, this.currentRound.Winner));
+        }
+
+        private void Parser_RoundStart(object sender, RoundStartedEventArgs e)
+        {
+            // Record the start of a new round
+            if (matchStarted)
+            {
+                this.currentRound = new Round();
+                this.currentRoundNumber++;
+                this.currentRound.RoundNumber = this.currentRoundNumber;
+
+                Debug.WriteLine("Start round " + this.currentRound.RoundNumber);
+            }
         }
 
         private void Parser_RoundEnd(object sender, RoundEndedEventArgs e)
@@ -108,27 +121,9 @@ namespace csgo_demo_analyzer
         {
             if (matchStarted)
             {
+                // Record each kill
                 Kill kill = new Kill(this.results.Players[e.Killer.SteamID], this.results.Players[e.DeathPerson.SteamID], e.Headshot, e.Weapon.Weapon.ToString());
                 this.results.Players[e.Killer.SteamID].Kills.Add(kill);
-                Debug.Write(String.Format("{0} <{1}> {2} ", kill.Killer.Name, kill.Weapon, kill.Killed.Name));
-                if (kill.Headshot)
-                {
-                    Debug.WriteLine("(Headshot)");
-                }
-                else
-                {
-                    Debug.WriteLine("");
-                }
-            }
-        }
-
-        private void Parser_RoundStart(object sender, RoundStartedEventArgs e)
-        {
-            if (matchStarted)
-            {
-                this.currentRound = new Round();
-                this.currentRoundNumber++;
-                Debug.WriteLine("Start round " + currentRoundNumber);
             }
         }
 
@@ -143,7 +138,12 @@ namespace csgo_demo_analyzer
                 results.Players.Add(p.SteamID, pl);
             }
 
-            Debug.WriteLine("Start round " + currentRoundNumber);
+            // Record the start of the first round
+            // This is a special case because timings and stuff
+            this.currentRound = new Round();
+            this.currentRound.RoundNumber = this.currentRoundNumber;
+
+            Debug.WriteLine("Start round " + this.currentRound.RoundNumber);
         }
     }
 }
