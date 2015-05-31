@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="lib\DemoAnalyzerWorker.cs" />
+    <Compile Include="lib\Kill.cs" />
+    <Compile Include="lib\Player.cs" />
+    <Compile Include="lib\Results.cs" />
+    <Compile Include="lib\Round.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
