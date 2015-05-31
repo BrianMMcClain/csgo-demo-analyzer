@@ -1,0 +1,8 @@
+c:\users\brian\documents\visual studio 2015\Projects\csgo-demo-analyzer\csgo-demo-analyzer\bin\Debug\csgo-demo-analyzer.exe.config
+C:\Users\Brian\Source\Repos\csgo-demo-analyzer\csgo-demo-analyzer\bin\Debug\csgo-demo-analyzer.exe.config
+C:\Users\Brian\Source\Repos\csgo-demo-analyzer\csgo-demo-analyzer\bin\Debug\csgo-demo-analyzer.exe
+C:\Users\Brian\Source\Repos\csgo-demo-analyzer\csgo-demo-analyzer\bin\Debug\csgo-demo-analyzer.pdb
+C:\Users\Brian\Source\Repos\csgo-demo-analyzer\csgo-demo-analyzer\bin\Debug\DemoInfo.dll
+C:\Users\Brian\Source\Repos\csgo-demo-analyzer\csgo-demo-analyzer\obj\Debug\csgo-demo-analyzer.csprojResolveAssemblyReference.cache
+C:\Users\Brian\Source\Repos\csgo-demo-analyzer\csgo-demo-analyzer\obj\Debug\csgo-demo-analyzer.exe
+C:\Users\Brian\Source\Repos\csgo-demo-analyzer\csgo-demo-analyzer\obj\Debug\csgo-demo-analyzer.pdb
