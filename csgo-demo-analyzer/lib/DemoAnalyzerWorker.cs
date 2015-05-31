@@ -51,7 +51,6 @@ namespace csgo_demo_analyzer
             parser.TickDone += Parser_TickDone;
 
             parser.ParseToEnd();
-            Console.ReadLine();
         }
 
         private void Parser_TickDone(object sender, TickDoneEventArgs e)
@@ -123,6 +122,13 @@ namespace csgo_demo_analyzer
             {
                 // Record each kill
                 Kill kill = new Kill(this.results.Players[e.Killer.SteamID], this.results.Players[e.DeathPerson.SteamID], e.Headshot, e.Weapon.Weapon.ToString());
+                if (e.Assister != null)
+                {
+                    kill.HasAssistance = true;
+                    kill.Assister = this.results.Players[e.Assister.SteamID];
+                    kill.Assister.Assists.Add(kill);
+                }
+                kill.PenetratedObjects = e.PenetratedObjects;
                 this.results.Players[e.Killer.SteamID].Kills.Add(kill);
             }
         }
