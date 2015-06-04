@@ -146,7 +146,6 @@ namespace csgo_demo_analyzer
                 Kill kill = new Kill(this.results.Players[e.Killer.SteamID], this.results.Players[e.DeathPerson.SteamID], e.Headshot, e.Weapon.Weapon.ToString());
                 if (e.Assister != null)
                 {
-                    kill.HasAssistance = true;
                     kill.Assister = this.results.Players[e.Assister.SteamID];
                     kill.Assister.Assists.Add(kill);
                 }

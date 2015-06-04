@@ -11,31 +11,20 @@ namespace csgo_demo_analyzer
         public Player Killer;
         public Player Killed;
         public Player Assister = null;
-        public bool HasAssistance = false;
         public bool Headshot = false;
         public string Weapon = null;
         public int PenetratedObjects = 0;
 
-        public Kill()
+		public bool HasAssistance
+		{
+			get { return Assister != null; }
+		}
+
+		public Kill()
         {
-            this.Killer = null;
-            this.Killed = null;
         }
 
-        public Kill(Player killer, Player killed)
-        {
-            this.Killer = killer;
-            this.Killed = killed;
-        }
-
-        public Kill(Player killer, Player killed, bool headshot)
-        {
-            this.Killer = killer;
-            this.Killed = killed;
-            this.Headshot = headshot;
-        }
-
-        public Kill(Player killer, Player killed, bool headshot, string weapon)
+        public Kill(Player killer, Player killed, bool headshot = false, string weapon = null)
         {
             this.Killer = killer;
             this.Killed = killed;
@@ -46,14 +35,20 @@ namespace csgo_demo_analyzer
         public override string ToString()
         {
             string outString = this.Killer.Name;
-            if (this.HasAssistance)
-                outString += String.Format(" (+{0})", this.Assister.Name);
+
+			if (this.HasAssistance)
+			{
+				outString += String.Format(" (+{0})", this.Assister.Name);
+			}
+
             outString += String.Format(" killed {0}", this.Killed.Name);
             outString += String.Format(" ({0})", this.Weapon);
+
             if (this.PenetratedObjects > 0)
             {
                 outString += String.Format(" (Penetrated {0} object(s))", this.PenetratedObjects);
             }
+
             return outString; 
         }
     }
