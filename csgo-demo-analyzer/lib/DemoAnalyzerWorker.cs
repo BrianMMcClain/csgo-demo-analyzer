@@ -24,46 +24,46 @@ namespace csgo_demo_analyzer
         private int lastTScore = 0;
         private int lastCTScore = 0;
 
-        public DemoAnalyzerWorker(String demoPath)
-        {
-            this.matchStarted = false;
+		public void ParseDemo(string demoPath)
+		{
+			this.matchStarted = false;
 
-            // Verify hash of demo
-            SHA256Managed sha = new SHA256Managed();
-            byte[] bhash = sha.ComputeHash(File.OpenRead(demoPath));
-            string hash = BitConverter.ToString(bhash).Replace("-", String.Empty);
-            Debug.WriteLine(String.Format("Demo hash: {0}", hash));
+			// Verify hash of demo
+			SHA256Managed sha = new SHA256Managed();
+			byte[] bhash = sha.ComputeHash(File.OpenRead(demoPath));
+			string hash = BitConverter.ToString(bhash).Replace("-", String.Empty);
+			Debug.WriteLine(String.Format("Demo hash: {0}", hash));
 
-            this.results = new Results(hash);
+			this.results = new Results(hash);
 
-            parser = new DemoParser(File.OpenRead(demoPath));
-            parser.ParseHeader();
+			parser = new DemoParser(File.OpenRead(demoPath));
+			parser.ParseHeader();
 
-            // Record the map
-            this.results.Map = parser.Map;
-            this.currentRound = new Round();
-            Debug.WriteLine(String.Format("Map: {0}", this.results.Map));
+			// Record the map
+			this.results.Map = parser.Map;
+			this.currentRound = new Round();
+			Debug.WriteLine(String.Format("Map: {0}", this.results.Map));
 
-            parser.MatchStarted += Parser_MatchStarted;
-            parser.RoundStart += Parser_RoundStart;
-            parser.PlayerKilled += Parser_PlayerKilled;
-            parser.RoundEnd += Parser_RoundEnd;
-            parser.TickDone += Parser_TickDone;
-            parser.BombPlanted += Parser_BombPlanted;
-            parser.BombDefused += Parser_BombDefused;
-           
-            parser.ParseToEnd();
-            
-            // Record the final score and MVPs
-            foreach (DemoInfo.Player p in parser.PlayingParticipants)
-            {
-                this.results.Players[p.SteamID].Score = p.AdditionaInformations.Score;
-                this.results.Players[p.SteamID].MVPs = p.AdditionaInformations.MVPs;
-            }
+			parser.MatchStarted += Parser_MatchStarted;
+			parser.RoundStart += Parser_RoundStart;
+			parser.PlayerKilled += Parser_PlayerKilled;
+			parser.RoundEnd += Parser_RoundEnd;
+			parser.TickDone += Parser_TickDone;
+			parser.BombPlanted += Parser_BombPlanted;
+			parser.BombDefused += Parser_BombDefused;
 
-            Debug.WriteLine("");
-            Debug.WriteLine(String.Format("Most Headshots: {0} ({1})", results.MostHeadshots.Name, results.MostHeadshots.HeadshotCount));
-        }
+			parser.ParseToEnd();
+
+			// Record the final score and MVPs
+			foreach (DemoInfo.Player p in parser.PlayingParticipants)
+			{
+				this.results.Players[p.SteamID].Score = p.AdditionaInformations.Score;
+				this.results.Players[p.SteamID].MVPs = p.AdditionaInformations.MVPs;
+			}
+
+			Debug.WriteLine("");
+			Debug.WriteLine(String.Format("Most Headshots: {0} ({1})", results.MostHeadshots.Name, results.MostHeadshots.HeadshotCount));
+		}
 
         private void Parser_BombDefused(object sender, BombEventArgs e)
         {
