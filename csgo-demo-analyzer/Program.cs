@@ -11,7 +11,7 @@ namespace csgo_demo_analyzer
         static void Main(string[] args)
         {
             DemoAnalyzerWorker worker = new DemoAnalyzerWorker();
-            worker.ParseDemo("D:\\demos\\test_demo.dem");
+            worker.ParseDemo("C:\\demos\\test_demo.dem");
         }
     }
 }
