@@ -68,11 +68,13 @@ namespace csgo_demo_analyzer
         private void Parser_BombDefused(object sender, BombEventArgs e)
         {
             results.Players[e.Player.SteamID].BombDefuses.Add(this.currentRound);
+            this.currentRound.bombDefuser = results.Players[e.Player.SteamID];
         }
 
         private void Parser_BombPlanted(object sender, BombEventArgs e)
         {
             results.Players[e.Player.SteamID].BombPlants.Add(this.currentRound);
+            this.currentRound.bombPlanter = results.Players[e.Player.SteamID];
         }
 
         private void Parser_TickDone(object sender, TickDoneEventArgs e)
@@ -106,15 +108,21 @@ namespace csgo_demo_analyzer
             {
                 winningTeam = Team.CounterTerrorist;
             }
+            this.currentRound.Winner = winningTeam;
+
+            // Reset in-progres stats tracking
             lastTScore = parser.TScore;
             lastCTScore = parser.CTScore;
-            this.currentRound.Winner = winningTeam;
 
             // Record the current round
             this.results.Rounds.Add(this.currentRoundNumber, this.currentRound);
 
-            Debug.WriteLine("End round " + this.currentRound.RoundNumber);
-            Debug.WriteLine(String.Format("Round {0}: T {1} | CT {2} - Winner: {3}", this.currentRound.RoundNumber, parser.TScore, parser.CTScore, this.currentRound.Winner));
+            Debug.WriteLine("End round " + this.currentRound.RoundNumber + ". Winner: " + this.currentRound.Winner);
+            Debug.WriteLine(String.Format("Round {0}: T {1} | CT {2} - Winner: {3}.", this.currentRound.RoundNumber, parser.TScore, parser.CTScore, this.currentRound.Winner));
+            if (this.currentRound.bombPlanter != null)
+                Debug.WriteLine(String.Format("Bomb planted by {0}", this.currentRound.bombPlanter.Name));
+            if (this.currentRound.bombDefuser != null)
+                Debug.WriteLine(String.Format("Bomb defused by {0}", this.currentRound.bombDefuser.Name));
         }
 
         private void Parser_RoundStart(object sender, RoundStartedEventArgs e)

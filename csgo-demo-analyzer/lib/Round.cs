@@ -10,6 +10,8 @@ namespace csgo_demo_analyzer
     {
         public DemoInfo.Team Winner = DemoInfo.Team.Spectate;
         public int RoundNumber = -1;
+        public Player bombPlanter = null;
+        public Player bombDefuser = null;
 
         public Round()
         {
