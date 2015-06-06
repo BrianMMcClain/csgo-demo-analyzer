@@ -24,7 +24,7 @@ namespace csgo_demo_analyzer
         private int lastTScore = 0;
         private int lastCTScore = 0;
 
-		public void ParseDemo(string demoPath)
+		public Results ParseDemo(string demoPath)
 		{
 			this.matchStarted = false;
 
@@ -61,18 +61,7 @@ namespace csgo_demo_analyzer
 				this.results.Players[p.SteamID].MVPs = p.AdditionaInformations.MVPs;
 			}
 
-			Debug.WriteLine("");
-			Debug.WriteLine(String.Format("Most Headshots: {0} ({1})", results.MostHeadshots.Name, results.MostHeadshots.HeadshotCount));
-            Debug.WriteLine(String.Format("Most Kills: {0} ({1})", results.MostKills.Name, results.MostKills.Kills.Count));
-            Debug.WriteLine(String.Format("Least Kills: {0} ({1})", results.LeastKills.Name, results.LeastKills.Kills.Count));
-            Debug.WriteLine(String.Format("Most Deaths: {0} ({1})", results.MostDeaths.Name, results.MostDeaths.Deaths.Count));
-            Debug.WriteLine(String.Format("Least Deaths: {0} ({1})", results.LeastDeaths.Name, results.LeastDeaths.Deaths.Count));
-            Debug.WriteLine(String.Format("Most TKs: {0} ({1})", results.MostTKs.Name, results.MostTKs.Teamkills.Count));
-            Debug.WriteLine(String.Format("Least TKs: {0} ({1})", results.LeastTKs.Name, results.LeastTKs.Teamkills.Count));
-            Debug.WriteLine(String.Format("Highest Frag/Death Ratio: {0} ({1})", results.HighestFragDeathRatio.Name, ((float)results.HighestFragDeathRatio.Kills.Count / (float)results.HighestFragDeathRatio.Deaths.Count)));
-            Debug.WriteLine(String.Format("Most Cowardly: {0}", results.MostCowardly.Name));
-            Debug.WriteLine(String.Format("Most Plants: {0} ({1})", results.MostBombPlants.Name, results.MostBombPlants.BombPlants.Count));
-            Debug.WriteLine(String.Format("Most Defuses: {0} ({1})", results.MostBombDefuses.Name, results.MostBombDefuses.BombDefuses.Count));
+            return this.results;
         }
 
         private void Parser_BombDefused(object sender, BombEventArgs e)
