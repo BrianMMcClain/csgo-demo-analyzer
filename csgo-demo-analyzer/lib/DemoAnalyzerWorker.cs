@@ -158,7 +158,7 @@ namespace csgo_demo_analyzer
 
         private void Parser_PlayerKilled(object sender, PlayerKilledEventArgs e)
         {
-            if (matchStarted)
+            if (matchStarted && e.Killer.SteamID != 0 && e.DeathPerson.SteamID != 0)
             {
                 // Record each kill
                 Kill kill = new Kill(this.results.Players[e.Killer.SteamID], this.results.Players[e.DeathPerson.SteamID], e.Headshot, e.Weapon.Weapon.ToString());
